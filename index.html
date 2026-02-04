@@ -66,20 +66,22 @@
 <body style="background-color: #f0f2f5;">
 
     <nav class="navbar navbar-dark bg-success shadow-sm sticky-top" style="z-index: 100;">
-        <div class="container d-flex align-items-center justify-content-between">
-            <a class="navbar-brand d-flex align-items-center me-auto" href="#"></a>
-                <img src="img/logo.png" width="65" height="65" class="d-inline-block align-top me-2 " onerror="this.style.display='none'">
-                <span class="fs-5 fw-bold" id="app-title">สามหลั่น</span>
-            </a>
-            
-            <div class="d-flex align-items-center">
-                <button class="btn btn-warning btn-sm fw-bold me-1" onclick="toggleLanguage()">
-                    🌐 <span id="lang-btn-text">TH</span>
-                </button>
-                <button class="btn btn-outline-light btn-sm me-1" onclick="resetApp()" id="btn-reset">รีเซ็ต</button>
-                <button class="btn btn-dark btn-sm" onclick="openSettings()">⚙️</button>
-            </div>
+      <div class="container d-flex align-items-center">
+        <!-- รวม logo + title ไว้ใน .navbar-brand -->
+        <a class="navbar-brand d-flex align-items-center" href="#">
+          <img src="img/logo.png" width="65" height="65" class="d-inline-block align-top me-2" onerror="this.style.display='none'">
+          <span class="fs-5 fw-bold" id="app-title">สามหลั่น</span>
+        </a>
+
+        <!-- ปุ่มทั้งหมดอยู่ในบล็อกเดียวที่มี ms-auto เพื่อดันไปขวา -->
+        <div class="ms-auto d-flex align-items-center">
+          <button class="btn btn-warning btn-sm fw-bold me-1" onclick="toggleLanguage()">
+            🌐 <span id="lang-btn-text">TH</span>
+          </button>
+          <button class="btn btn-outline-light btn-sm me-1" onclick="resetApp()" id="btn-reset">รีเซ็ต</button>
+          <button class="btn btn-dark btn-sm" onclick="openSettings()">⚙️</button>
         </div>
+      </div>
     </nav>
 
     <div class="container pb-5 mb-5">
@@ -123,11 +125,6 @@
                         <span class="fs-4" id="unit-baht-modal">บาท</span>
                     </div>
 
-                    <!-- <div class="mb-3">
-                        <label for="txn-note" class="form-label small text-muted fw-bold">📝 หมายเหตุ / รายละเอียด (Optional)</label>
-                        <textarea class="form-control bg-light" id="txn-note" rows="2" placeholder="เช่น เช่าเต็นท์รวมค่านอนแล้ว..."></textarea>
-                    </div> -->
-                    
                     <hr>
                     <p class="mb-2 fw-bold text-muted" id="lbl-received-money">กดตามเงินที่รับมา:</p>
                     <div class="row g-2 mb-3">
