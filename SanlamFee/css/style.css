@@ -1,0 +1,67 @@
+body {
+    background-color: #d1d3d6 !important;
+    padding-bottom: 100px; /* เผื่อพื้นที่ให้ปุ่มด้านล่าง */
+    font-family: 'Sarabun', sans-serif; /* แนะนำให้หา font มาใส่ถ้าต้องการ */
+}
+
+/* Card รายการ */
+.item-card {
+    border: none;
+    border-radius: 15px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+    transition: transform 0.1s;
+    background-color: white;
+    height: 100%;
+}
+
+.item-card:active {
+    transform: scale(0.98);
+}
+
+.item-title {
+    font-size: 1.1rem;
+    font-weight: bold;
+    color: #333;
+}
+
+.item-price {
+    color: #2E7D32;
+    font-weight: bold;
+}
+
+/* ปุ่มเพิ่มลดจำนวน */
+.qty-btn {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    font-weight: bold;
+    font-size: 1.2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* ปุ่มรับเงิน */
+.money-btn {
+    font-weight: bold;
+    font-size: 1.1rem;
+    border-width: 2px;
+}
+
+/* เอฟเฟกต์ยุบเมื่อกด (Active State) */
+.card-press-effect:active {
+    background-color: #f8f9fa !important; /* เปลี่ยนสีพื้นนิดนึงตอนกด */
+    transform: scale(0.96); /* ยุบลง 4% */
+    transition: transform 0.05s; /* ยุบเร็วๆ ทันใจ */
+}
+
+/* เอฟเฟกต์ปุ่มลบ (สีแดง) */
+.btn-press-effect:active {
+    background-color: #b02a37 !important; /* แดงเข้มขึ้นตอนกด */
+    transform: scale(0.90); /* ปุ่มเล็กยุบเยอะหน่อย */
+}
+
+/* ตัวเลขจำนวน */
+.transition-text {
+    transition: color 0.2s;
+}
