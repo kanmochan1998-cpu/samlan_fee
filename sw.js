@@ -1,4 +1,4 @@
-const CACHE_NAME = 'np-fee-v3'; // เปลี่ยนเป็น v3
+const CACHE_NAME = 'np-fee-v3.1'; // เปลี่ยนเป็น v3.1
 const ASSETS = ['./', './index.html', './css/style.css', './js/app.js'];
 
 self.addEventListener('install', (e) => {
