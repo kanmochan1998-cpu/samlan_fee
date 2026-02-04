@@ -1,7 +1,7 @@
 // --- 1. ฐานข้อมูลภาษา (Dictionary) 3 ภาษา ---
 const translations = {
     th: {
-        langBtn: 'TH', appTitle: 'สามหลั่น', reset: 'รีเซ็ต', items: 'รายการ', total: 'รวม', baht: 'บ.',
+        langBtn: 'TH', appTitle: 'น้ำตกสามหลั่น', reset: 'รีเซ็ต', items: 'รายการ', total: 'รวม', baht: 'บ.',
         fullBaht: 'บาท', checkout: 'คิดเงิน / รับเงิน', modalTitle: 'สรุปรายการ & รับเงิน', totalPay: 'ยอดรวมต้องชำระ',
         inputMoney: 'กดตามเงินที่รับมา:', received: 'รับเงินมา:', change: 'เงินทอน:', missing: 'ขาดอีก:',
         done: 'เสร็จสิ้น (คนต่อไป)', touchToAdd: 'แตะเพิ่ม', 
@@ -498,4 +498,5 @@ function updateNavHeight() {
 
 // สั่งให้ทำงานตอนเปิดเว็บ และตอนหมุนหน้าจอ
 window.addEventListener('load', updateNavHeight);
+
 window.addEventListener('resize', updateNavHeight);
