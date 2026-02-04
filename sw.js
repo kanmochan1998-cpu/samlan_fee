@@ -1,4 +1,6 @@
-const CACHE_NAME = 'np-fee-v1';
+// 1. ทุกครั้งที่แก้โค้ด ให้มาเปลี่ยนเลขตรงนี้เป็น v2, v3, v4 ไปเรื่อยๆ 
+const CACHE_NAME = 'np-fee-v2'; 
+
 const ASSETS = [
   './',
   './index.html',
@@ -10,16 +12,28 @@ const ASSETS = [
   './img/icon.png'
 ];
 
-// ติดตั้ง Service Worker และ Cache ไฟล์
+// ติดตั้งและบังคับให้ใช้ตัวใหม่ทันที
 self.addEventListener('install', (e) => {
+  self.skipWaiting(); 
   e.waitUntil(
     caches.open(CACHE_NAME).then((cache) => cache.addAll(ASSETS))
   );
 });
 
-// เรียกใช้ไฟล์จาก Cache เมื่อ Offline
+// ล้างแคชเก่าทิ้งทันทีที่มีการเปลี่ยน CACHE_NAME
+self.addEventListener('activate', (e) => {
+  e.waitUntil(
+    caches.keys().then((keys) => {
+      return Promise.all(
+        keys.filter((key) => key !== CACHE_NAME).map((key) => caches.delete(key))
+      );
+    })
+  );
+});
+
+// เปลี่ยนกลยุทธ์เป็น: ไปดูที่ Network ก่อน ถ้าไม่มีเน็ตค่อยดึงจาก Cache (Network First)
 self.addEventListener('fetch', (e) => {
   e.respondWith(
-    caches.match(e.request).then((response) => response || fetch(e.request))
+    fetch(e.request).catch(() => caches.match(e.request))
   );
 });
