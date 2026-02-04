@@ -6,7 +6,7 @@
     <title>ค่าธรรมเนียม - น้ำตกสามหลั่น</title>
     
     <link rel="stylesheet" href="css/bootstrap.min.css">
-    <link rel="stylesheet" href="css/style.css?v=1.0">
+    <link rel="stylesheet" href="css/style.css?v=1.1">
     
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#2E7D32">
@@ -18,7 +18,7 @@
         /* แถบปุ่มเลือกคืน (Sticky Bar) */
         .night-selector-bar {
             position: sticky;
-            top: 90px; /* ปรับให้เกาะอยู่ใต้ Navbar พอดี (Navbar สูงประมาณ 56px) */
+            top: var(--nav-height,55px); /* ปรับให้เกาะอยู่ใต้ Navbar พอดี */
             z-index: 90;
             background-color: rgba(255, 255, 255, 0.95); /* พื้นหลังขาวโปร่งแสงนิดๆ */
             backdrop-filter: blur(5px);
@@ -74,7 +74,7 @@
         <div class="container d-flex align-items-center justify-content-between">
             <a class="navbar-brand d-flex align-items-center" href="#">
                 <img src="img/logo.png" width="65" height="65" class="d-inline-block align-top me-2 " onerror="this.style.display='none'">
-                <span class="fs-5 fw-bold" id="app-title">สามหลั่น ค่าธรรมเนียม</span>
+                <span class="fs-5 fw-bold" id="app-title">สามหลั่น</span>
             </a>
             
             <div class="d-flex align-items-center">
@@ -195,7 +195,7 @@
     </div>
 
     <script src="js/bootstrap.bundle.min.js"></script>
-    <script src="js/app.js?v=1.0"></script>
+    <script src="js/app.js?v=1.1"></script>
     <script>
         if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js');
     </script>
