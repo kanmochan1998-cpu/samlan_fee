@@ -3,30 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>น้ำตกสามหลั่น</title>
+    <title>ค่าธรรมเนียม - น้ำตกสามหลั่น</title>
     
     <link rel="stylesheet" href="css/bootstrap.min.css">
-    <link rel="stylesheet" href="css/style.css?v=2.0">
+    <link rel="stylesheet" href="css/style.css?v=3.0">
     
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#2E7D32">
     <link rel="apple-touch-icon" href="img/icon.png">
 
     <style>
-        /* --- CSS ใหม่สำหรับระบบแยกโซน & เลือกคืน --- */
-
-        /* แถบปุ่มเลือกคืน (Sticky Bar) */
         .night-selector-bar {
-            position: sticky;
-            top: var(--nav-height,55px); /* ปรับให้เกาะอยู่ใต้ Navbar พอดี */
-            z-index: 90;
-            background-color: rgba(255, 255, 255, 0.95); /* พื้นหลังขาวโปร่งแสงนิดๆ */
-            backdrop-filter: blur(5px);
-            padding: 10px 0;
-            margin-bottom: 10px;
-            border-bottom: 1px solid #ddd;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-        }
+    position: -webkit-sticky; /* สำคัญ: เพื่อให้ iPhone ยอมเกาะ */
+    position: sticky;
+    top: var(--nav-height, 66px); /* เกาะใต้ความสูงที่วัดได้จริง */
+    z-index: 1020; /* อยู่เหนือการ์ดแต่ต่ำกว่า Navbar */
+    background-color: white;
+    padding: 10px 0;
+    border-bottom: 1px solid #ddd;
+}
 
         /* ปุ่มเลือกคืน (1-5) */
         .night-btn {
@@ -72,7 +67,7 @@
 
     <nav class="navbar navbar-dark bg-success shadow-sm sticky-top" style="z-index: 100;">
         <div class="container d-flex align-items-center justify-content-between">
-            <a class="navbar-brand d-flex align-items-center" href="#">
+            <a class="navbar-brand d-flex align-items-center flex-grow-1" href="#"></a>
                 <img src="img/logo.png" width="65" height="65" class="d-inline-block align-top me-2 " onerror="this.style.display='none'">
                 <span class="fs-5 fw-bold" id="app-title">สามหลั่น</span>
             </a>
@@ -195,12 +190,9 @@
     </div>
 
     <script src="js/bootstrap.bundle.min.js"></script>
-    <script src="js/app.js?v=2.0"></script>
+    <script src="js/app.js?v=3.0"></script>
     <script>
         if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js');
     </script>
 </body>
-
 </html>
-
-
