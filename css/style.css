@@ -57,7 +57,7 @@ body {
 
 /* เอฟเฟกต์ปุ่มลบ (สีแดง) */
 .btn-press-effect:active {
-    background-color: #b02a37 !important; /* แดงเข้มขึ้นตอนกด */
+    background-color: #ea5261 !important; /* แดงเข้มขึ้นตอนกด */
     transform: scale(0.90); /* ปุ่มเล็กยุบเยอะหน่อย */
 }
 

@@ -11,31 +11,83 @@
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#2E7D32">
     <link rel="apple-touch-icon" href="img/icon.png">
+
+    <style>
+        /* --- CSS ใหม่สำหรับระบบแยกโซน & เลือกคืน --- */
+
+        /* แถบปุ่มเลือกคืน (Sticky Bar) */
+        .night-selector-bar {
+            position: sticky;
+            top: 90px; /* ปรับให้เกาะอยู่ใต้ Navbar พอดี (Navbar สูงประมาณ 56px) */
+            z-index: 90;
+            background-color: rgba(255, 255, 255, 0.95); /* พื้นหลังขาวโปร่งแสงนิดๆ */
+            backdrop-filter: blur(5px);
+            padding: 10px 0;
+            margin-bottom: 10px;
+            border-bottom: 1px solid #ddd;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+
+        /* ปุ่มเลือกคืน (1-5) */
+        .night-btn {
+            width: 45px;
+            height: 45px;
+            border: 1px solid #ccc;
+            background-color: #f8f9fa;
+            color: #ccc; /* สีจางๆ ตอนยังไม่เลือก */
+            font-weight: bold;
+            font-size: 1.1rem;
+            border-radius: 8px;
+            margin: 0 3px;
+            transition: all 0.1s;
+        }
+
+        /* ปุ่มตอนถูกเลือก (Active) */
+        .night-btn.active {
+            background-color: #ff9800; /* สีส้ม */
+            color: white;
+            border-color: #e68900;
+            transform: scale(1.1); /* ขยายใหญ่ขึ้นนิดนึง */
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+            opacity: 1;
+        }
+
+        /* หัวข้อหมวดหมู่ (Zone Header) */
+        .zone-header {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #198754; /* สีเขียวเข้ม */
+            margin-top: 25px;
+            margin-bottom: 10px;
+            padding-left: 15px;
+            border-left: 5px solid #198754;
+            background-color: #e8f5e9;
+            padding: 10px;
+            border-radius: 0 5px 5px 0;
+        }
+    </style>
 </head>
 
 <body style="background-color: #f0f2f5;">
 
-    <nav class="navbar navbar-dark bg-success shadow-sm sticky-top">
+    <nav class="navbar navbar-dark bg-success shadow-sm sticky-top" style="z-index: 100;">
         <div class="container d-flex align-items-center justify-content-between">
             <a class="navbar-brand d-flex align-items-center" href="#">
-                <img src="img/logo.png" width="55" height="55" class="d-inline-block align-top me-2 " onerror="this.style.display='none'">
-                
-                <span class="fs-5 fw-bold" id="app-title">สามหลั่น (Fee)</span>
+                <img src="img/logo.png" width="65" height="65" class="d-inline-block align-top me-2 " onerror="this.style.display='none'">
+                <span class="fs-5 fw-bold" id="app-title">สามหลั่น ค่าธรรมเนียม</span>
             </a>
             
             <div class="d-flex align-items-center">
                 <button class="btn btn-warning btn-sm fw-bold me-1" onclick="toggleLanguage()">
                     🌐 <span id="lang-btn-text">TH</span>
                 </button>
-                
                 <button class="btn btn-outline-light btn-sm me-1" onclick="resetApp()" id="btn-reset">รีเซ็ต</button>
-                
                 <button class="btn btn-dark btn-sm" onclick="openSettings()">⚙️</button>
             </div>
         </div>
     </nav>
 
-    <div class="container py-3 pb-5 mb-5">
+    <div class="container pb-5 mb-5">
         <div id="items-container" class="row g-2">
             </div>
     </div>
@@ -67,13 +119,19 @@
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
                 </div>
                 <div class="modal-body">
-                    <ul id="summary-list" class="list-group mb-3 list-group-flush"></ul>
                     
-                    <div class="alert alert-success text-center border-2 border-success">
+                    <div id="summary-content"></div>
+                    
+                    <div class="alert alert-success text-center border-2 border-success mt-3">
                         <span class="fs-5" id="lbl-total-pay">ยอดรวมต้องชำระ</span><br>
                         <span class="display-3 fw-bold" id="modal-total">0</span> 
                         <span class="fs-4" id="unit-baht-modal">บาท</span>
                     </div>
+
+                    <!-- <div class="mb-3">
+                        <label for="txn-note" class="form-label small text-muted fw-bold">📝 หมายเหตุ / รายละเอียด (Optional)</label>
+                        <textarea class="form-control bg-light" id="txn-note" rows="2" placeholder="เช่น เช่าเต็นท์รวมค่านอนแล้ว..."></textarea>
+                    </div> -->
                     
                     <hr>
                     <p class="mb-2 fw-bold text-muted" id="lbl-received-money">กดตามเงินที่รับมา:</p>
@@ -139,7 +197,6 @@
     <script src="js/bootstrap.bundle.min.js"></script>
     <script src="js/app.js"></script>
     <script>
-        // ลงทะเบียน Service Worker เพื่อให้ใช้แบบ Offline ได้
         if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js');
     </script>
 </body>
