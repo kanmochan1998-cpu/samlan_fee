@@ -14,7 +14,7 @@ const translations = {
         },
         // หน่วยนับ
         units: {
-            person: 'คน', vehicle: 'คัน', tent: 'หลัง', item: 'ใบ', set: 'ชุด'
+            person: 'คน', vehicle: 'คัน', tent: 'หลัง', item: 'ชิ้น', set: 'ชุด'
         },
         names: {
             adult_thai: 'ผู้ใหญ่ (ไทย)', child_thai: 'เด็ก (ไทย)', adult_foreign: 'ผู้ใหญ่ (ต่างชาติ)', child_foreign: 'เด็ก (ต่างชาติ)',
@@ -37,7 +37,7 @@ const translations = {
         names: {
             adult_thai: 'Adult (Thai)', child_thai: 'Child (Thai)', adult_foreign: 'Adult (Foreign)', child_foreign: 'Child (Foreign)',
             moto: 'Motorcycle', car4: 'Car (4 Wheels)', car6: 'Car (6 Wheels)', car_heavy: 'Vehicle (>6-10 Wheels)',
-            camp_fee: 'Camping Fee', tent_rent_3: 'Rent Tent (3 Pax)', pillow: 'Pillow', mat: 'Sleeping Mat', sleeping_bag: 'Sleeping Bag'
+            camp_fee: 'Camping Fee', tent_rent_3: 'Rent Tent (3P)', pillow: 'Pillow', mat: 'Sleeping Mat', sleeping_bag: 'Sleeping Bag'
         }
     },
     cn: {
@@ -500,3 +500,4 @@ window.addEventListener('load', updateNavHeight);
 window.addEventListener('resize', updateNavHeight);
 
 setTimeout(updateNavHeight, 500);
+
