@@ -1,5 +1,15 @@
-const CACHE_NAME = 'np-fee-v3.1'; // เปลี่ยนเป็น v3.1
-const ASSETS = ['./', './index.html', './css/style.css', './js/app.js'];
+const CACHE_NAME = 'np-fee-v3.2'; // อัปเดตเวอร์ชันเป็น 3.2
+const ASSETS = [
+    './',
+    './index.html',
+    './css/style.css',
+    './css/bootstrap.min.css',      // เพิ่ม: ตัวจัดหน้าตา
+    './js/app.js',
+    './js/bootstrap.bundle.min.js', // เพิ่ม: ตัวคุม Popup Modal
+    './img/logo.png',               // เพิ่ม: โลโก้
+    './img/icon.png',               // เพิ่ม: ไอคอนแอป
+    './manifest.json'               // เพิ่ม: ไฟล์ตั้งค่าติดตั้ง
+];
 
 self.addEventListener('install', (e) => {
     self.skipWaiting();
