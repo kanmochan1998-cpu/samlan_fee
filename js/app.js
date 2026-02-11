@@ -5,12 +5,12 @@ const translations = {
         fullBaht: 'บาท', checkout: 'คิดเงิน / รับเงิน', modalTitle: 'สรุปรายการ & รับเงิน', totalPay: 'ยอดรวมต้องชำระ',
         inputMoney: 'กดตามเงินที่รับมา:', received: 'รับเงินมา:', change: 'เงินทอน:', missing: 'ขาดอีก:',
         done: 'เสร็จสิ้น (คนต่อไป)', touchToAdd: 'แตะเพิ่ม', 
-        nightUnit: 'คืน',
+        nightUnit: 'คืน',selectNight: 'เลือกคืน:',
         // หัวข้อหมวดหมู่
         headers: {
-            person: '🎫 ค่าบริการบุคคล (Entrance Fee)',
-            vehicle: '🚗 ยานพาหนะ (Vehicles)',
-            sleep: '⛺ ที่พัก & อุปกรณ์ (Accommodation)'
+            person: '🎫 ค่าบริการบุคคล',
+            vehicle: '🚗 ยานพาหนะ',
+            sleep: '⛺ ค้างแรม & อุปกรณ์'
         },
         // หน่วยนับ
         units: {
@@ -18,25 +18,25 @@ const translations = {
         },
         names: {
             adult_thai: 'ผู้ใหญ่ (ไทย)', child_thai: 'เด็ก (ไทย)', adult_foreign: 'ผู้ใหญ่ (ต่างชาติ)', child_foreign: 'เด็ก (ต่างชาติ)',
-            moto: 'รถมอเตอร์ไซค์', car4: 'รถยนต์ 4 ล้อ', car6: 'รถยนต์ 6 ล้อ', car_heavy: 'รถยนต์ >6-10 ล้อ',
+            moto: 'รถมอเตอร์ไซค์', car4: 'รถยนต์ 4 ล้อ', car6: 'รถยนต์ 6 ล้อ', car_heavy: 'รถยนต์ 6-10 ล้อ',
             camp_fee: 'ค่ากางเต็นท์', tent_rent_3: 'เช่าเต็นท์ (3 คน)', pillow: 'หมอน', mat: 'แผ่นรองนอน', sleeping_bag: 'ถุงนอน'
         }
     },
     en: {
-        langBtn: 'EN', appTitle: 'Samlan NP Fee', reset: 'Reset', items: 'Items', total: 'Total', baht: 'THB',
+        langBtn: 'EN', appTitle: 'NP Fee', reset: 'Reset', items: 'Items', total: 'Total', baht: 'THB',
         fullBaht: 'THB', checkout: 'Checkout', modalTitle: 'Summary & Payment', totalPay: 'Total Amount',
         inputMoney: 'Received Cash:', received: 'Received:', change: 'Change:', missing: 'Missing:',
         done: 'Done (Next)', touchToAdd: 'Tap to Add', 
-        nightUnit: 'Nights',
+        nightUnit: 'Nights',selectNight: 'Nights:',
         headers: {
-            person: '🎫 Entrance Fee', vehicle: '🚗 Vehicles', sleep: '⛺ Accommodation'
+            person: '🎫 Entrance Fee', vehicle: '🚗 Vehicles', sleep: '⛺ Overnight & Rental'
         },
         units: {
             person: 'Pax', vehicle: 'Unit', tent: 'Unit', item: 'Pcs', set: 'Set'
         },
         names: {
             adult_thai: 'Adult (Thai)', child_thai: 'Child (Thai)', adult_foreign: 'Adult (Foreign)', child_foreign: 'Child (Foreign)',
-            moto: 'Motorcycle', car4: 'Car (4 Wheels)', car6: 'Car (6 Wheels)', car_heavy: 'Vehicle (>6-10 Wheels)',
+            moto: 'Motorcycle', car4: 'Car (4 Wheels)', car6: 'Car (6 Wheels)', car_heavy: 'Vehicle (6-10 Wheels)',
             camp_fee: 'Camping Fee', tent_rent_3: 'Rent Tent (3P)', pillow: 'Pillow', mat: 'Sleeping Mat', sleeping_bag: 'Sleeping Bag'
         }
     },
@@ -45,7 +45,7 @@ const translations = {
         fullBaht: '泰铢', checkout: '结账 / 收款', modalTitle: '摘要和付款', totalPay: '应付总额',
         inputMoney: '收到的现金:', received: '已收:', change: '找零:', missing: '缺少:',
         done: '完成 (下一位)', touchToAdd: '点击添加', 
-        nightUnit: '晚',
+        nightUnit: '晚',selectNight: '选择晚数:',
         headers: {
             person: '🎫 门票', vehicle: '🚗 车辆', sleep: '⛺ 住宿 & 租赁'
         },
@@ -54,7 +54,7 @@ const translations = {
         },
         names: {
             adult_thai: '成人 (泰国)', child_thai: '儿童 (泰国)', adult_foreign: '成人 (外国)', child_foreign: '儿童 (外国)',
-            moto: '摩托车', car4: '汽车 (4轮)', car6: '汽车 (6轮)', car_heavy: '大型车 (>6-10轮)',
+            moto: '摩托车', car4: '汽车 (4轮)', car6: '汽车 (6轮)', car_heavy: '大型车 (6-10轮)',
             camp_fee: '露营费', tent_rent_3: '租用帐篷 (3人)', pillow: '枕头', mat: '睡垫', sleeping_bag: '睡袋'
         }
     }
@@ -88,6 +88,8 @@ let cart = {};
 let cartNights = {}; // เก็บจำนวนคืนของแต่ละรายการ (Night Stamping)
 let currentNights = 1; // ค่าคืนปัจจุบันที่เลือกจากปุ่ม (Sticky Switch)
 let receivedMoney = 0;
+let paymentModalInstance = null; //เก็บสถานะ
+let historyModalInstance = null; //สิ่งศักดิ์สิทธ์
 
 const langOrder = ['th', 'en', 'cn'];
 let currentLang = localStorage.getItem('app_lang') || 'th';
@@ -125,11 +127,17 @@ function toggleLanguage() {
     updateUILanguage();
     renderItems();
     calculateTotal();
+    const paymentModal = document.getElementById('paymentModal');
+    if (paymentModal && paymentModal.classList.contains('show')) {
+        showSummary(); 
+    }
 }
 
 function updateUILanguage() {
     const t = translations[currentLang];
     document.getElementById('lang-btn-text').innerText = t.langBtn;
+    const modalLangBtn = document.querySelector('.modal-lang-btn-text');
+    if(modalLangBtn) modalLangBtn.innerText = t.langBtn;
     if(document.getElementById('app-title')) document.getElementById('app-title').innerText = t.appTitle;
     if(document.getElementById('btn-reset')) document.getElementById('btn-reset').innerText = t.reset;
     if(document.getElementById('lbl-items')) document.getElementById('lbl-items').innerText = t.items;
@@ -170,15 +178,29 @@ function renderItems() {
     const categories = ['person', 'vehicle', 'sleep'];
     
     categories.forEach(cat => {
-        // 1. สร้างหัวข้อหมวดหมู่
-        container.innerHTML += `<div class="col-12"><div class="zone-header">${t.headers[cat]}</div></div>`;
+        // 1. สร้างหัวข้อหมวดหมู่แบบมีปุ่มประวัติ (ใช้ d-flex เพื่อดันปุ่มไปขวาสุด)
+        if (cat === 'person') {
+            container.innerHTML += `
+            <div class="col-12">
+                <div class="zone-header d-flex justify-content-between align-items-center">
+                    <span>${t.headers[cat]}</span>
+                    <button class="btn btn-success btn-sm text-white fw-bold shadow-sm" onclick="openHistory()" style="border-radius: 10px; padding: 5px 15px;">
+                        📄 ประวัติ
+                    </button>
+                </div>
+            </div>`;
+        } else {
+            container.innerHTML += `<div class="col-12"><div class="zone-header">${t.headers[cat]}</div></div>`;
+        }
+        
+        // ... (โค้ดส่วนอื่นๆ ที่เหลือในฟังก์ชันเดิม) ...
 
         // 2. ถ้าเป็นหมวด Sleep ให้แทรก "ปุ่มเลือกคืน" (Sticky Bar)
         if (cat === 'sleep') {
             const nightBar = `
             <div class="col-12 sticky-top night-selector-bar">
                 <div class="d-flex align-items-center justify-content-center">
-                    <span class="me-2 fw-bold text-secondary small" style="opacity:0.7">เลือกคืน:</span>
+                    <span class="me-2 fw-bold text-secondary small" style="opacity:0.7">${t.selectNight}</span>
                     <button class="btn night-btn ${currentNights===1?'active':''}" onclick="setNights(1)">1</button>
                     <button class="btn night-btn ${currentNights===2?'active':''}" onclick="setNights(2)">2</button>
                     <button class="btn night-btn ${currentNights===3?'active':''}" onclick="setNights(3)">3</button>
@@ -298,22 +320,28 @@ function calculateTotal() {
 }
 
 function showSummary() {
+    // 1. อัปเดตภาษาของ UI ทั้งหมด
+    updateUILanguage(); 
+
     const total = calculateTotal();
     const t = translations[currentLang];
-    if (total === 0) { alert(currentLang === 'th' ? 'ยังไม่ได้เลือกรายการครับ' : 'No items selected'); return; }
+    
+    // ตรวจสอบว่ามีการเลือกรายการหรือไม่
+    if (total === 0) { 
+        alert(currentLang === 'th' ? 'ยังไม่ได้เลือกรายการครับ' : 'No items selected'); 
+        return; 
+    }
 
-    // ใช้ div แทน ul เพื่อรองรับหัวข้อหมวด
     const contentDiv = document.getElementById('summary-content');
     contentDiv.innerHTML = '';
     
     const categories = ['person', 'vehicle', 'sleep'];
     
     categories.forEach(cat => {
-        // หาของในหมวดนี้ที่มีการเลือก
         const itemsInCat = feeItems.filter(i => (i.category || 'person') === cat && (cart[i.id] > 0));
         
         if (itemsInCat.length > 0) {
-            // หัวข้อในใบเสร็จ
+            // สร้างหัวข้อหมวดหมู่ในใบเสร็จ
             contentDiv.innerHTML += `<div class="fw-bold text-success border-bottom mb-2 mt-2 pb-1" style="font-size:1.1rem">${t.headers[cat]}</div>`;
             
             const ul = document.createElement('ul');
@@ -326,8 +354,9 @@ function showSummary() {
                 const displayName = getItemName(item, currentLang);
                 const unitName = t.units[item.unitKey || 'item'];
 
-                let detailText = `x ${qty} ${unitName}`;
-                // ถ้าหมวดนอน ให้โชว์คืนด้วย
+                // ✅ ส่วนที่ปรับปรุง: แสดงราคาต่อหน่วย @
+                let detailText = `x ${qty} ${unitName} (@${item.price.toLocaleString()})`;
+                
                 if (item.category === 'sleep') {
                     detailText += ` <span class="badge bg-warning text-dark rounded-pill">(${nights} ${t.nightUnit})</span>`;
                 }
@@ -336,9 +365,9 @@ function showSummary() {
                 <li class="list-group-item d-flex justify-content-between align-items-center ps-0 pe-0">
                     <div>
                         <span class="fw-bold text-dark">${displayName}</span><br>
-                        <span class="text-muted fs-5">${detailText}</span>
+                        <span class="text-muted fs-6">${detailText}</span>
                     </div>
-                    <span class="fw-bold fs-5">${itemTotal.toLocaleString()}</span>
+                    <span class="fw-bold fs-5 text-dark">${itemTotal.toLocaleString()}</span>
                 </li>`;
                 ul.innerHTML += li;
             });
@@ -346,14 +375,23 @@ function showSummary() {
         }
     });
 
+    // อัปเดตยอดรวมใน Modal
     document.getElementById('modal-total').innerText = total.toLocaleString();
     
-    // เคลียร์ค่า Note
     if(document.getElementById('txn-note')) document.getElementById('txn-note').value = '';
     
     receivedMoney = 0;
     updateChangeDisplay();
-    new bootstrap.Modal(document.getElementById('paymentModal')).show();
+
+    // ✅ ส่วนที่ป้องกันหน้าจอค้าง
+    const modalElement = document.getElementById('paymentModal');
+    if (!paymentModalInstance) {
+        paymentModalInstance = new bootstrap.Modal(modalElement);
+    }
+    
+    if (!modalElement.classList.contains('show')) {
+        paymentModalInstance.show();
+    }
 }
 
 function addMoney(amount) { receivedMoney += amount; updateChangeDisplay(); }
@@ -382,8 +420,30 @@ function updateChangeDisplay() {
 }
 
 function finishTransaction() {
-    bootstrap.Modal.getInstance(document.getElementById('paymentModal')).hide();
+    // 1. ดึงข้อมูลที่จำเป็นมาเตรียมบันทึก
+    const total = calculateTotal();
+    const change = receivedMoney - total;
+    
+    // 2. สร้างก้อนข้อมูล (Transaction Object)
+    const txn = {
+        timestamp: new Date().toLocaleString('th-TH'), // วันที่และเวลาแบบไทย
+        items: getCartSummaryText(), // รายการแบบสรุปสั้นๆ
+        total: total,
+        received: receivedMoney, // ยอดรับเงิน
+        change: change > 0 ? change : 0 // ยอดเงินทอน
+    };
+
+    // 3. บันทึกลง LocalStorage (ระบบฐานข้อมูลในเครื่อง)
+    saveToHistory(txn);
+
+    // 4. ปิดหน้าจอ Modal และรีเซ็ตแอปตามเดิม
+    if (paymentModalInstance) {
+        paymentModalInstance.hide();
+    }
     resetApp();
+    
+    // แจ้งเตือนเล็กน้อยว่าบันทึกแล้ว (Optional)
+    console.log("บันทึกรายการสำเร็จ:", txn);
 }
 
 function resetApp() {
@@ -444,6 +504,14 @@ function openSettings() {
             const btnRestore = document.createElement('button'); btnRestore.id = 'btn-restore-default';
             btnRestore.className = 'btn btn-outline-danger btn-sm w-100'; btnRestore.innerText = 'คืนค่าเดิมทั้งหมด (Factory Reset)';
             btnRestore.onclick = restoreDefaults; settingsBody.appendChild(btnRestore);
+            if(!document.getElementById('btn-export-csv')) {
+                 const btnExport = document.createElement('button');
+                 btnExport.id = 'btn-export-csv';
+                 btnExport.className = 'btn btn-success w-100 mt-2';
+                 btnExport.innerHTML = '📊 ส่งออกรายงาน (Export CSV)';
+                 btnExport.onclick = exportToCSV;
+                 settingsBody.appendChild(btnExport);
+                }
         }
         new bootstrap.Modal(document.getElementById('settingsModal')).show();
     } else if (password !== null) { alert("รหัสผ่านผิดครับ!"); }
@@ -501,3 +569,111 @@ window.addEventListener('resize', updateNavHeight);
 
 setTimeout(updateNavHeight, 500);
 
+// ฟังก์ชันสรุปรายการในตะกร้าเป็นข้อความสั้นๆ เพื่อเก็บลงฐานข้อมูล
+function getCartSummaryText() {
+    return feeItems
+        .filter(item => cart[item.id] > 0)
+        .map(item => {
+            const qty = cart[item.id];
+            const nights = cartNights[item.id] || 1;
+            const nightText = item.category === 'sleep' ? `(${nights}คืน)` : '';
+            return `${getItemName(item, 'th')} x${qty}${nightText}`;
+        })
+        .join(', ');
+}
+
+// ฟังก์ชันเก็บข้อมูลลงเครื่อง
+function saveToHistory(txn) {
+    let history = JSON.parse(localStorage.getItem('samlan_history') || '[]');
+    history.push(txn);
+    // เก็บแค่ 1,000 รายการล่าสุดเพื่อป้องกันเครื่องอืด
+    if (history.length > 1000) history.shift(); 
+    localStorage.setItem('samlan_history', JSON.stringify(history));
+}
+
+function exportToCSV() {
+    const history = JSON.parse(localStorage.getItem('samlan_history') || '[]');
+    if (history.length === 0) {
+        alert('ยังไม่มีข้อมูลประวัติการขายครับ');
+        return;
+    }
+
+    // 1. ส่วนหัวของไฟล์ CSV (Header)
+    let csvContent = "\uFEFF"; // ใส่ BOM เพื่อให้ Excel อ่านภาษาไทยออก
+    csvContent += "วัน-เวลา,รายการ,ยอดรวม,รับเงินมา,เงินทอน\n";
+
+    // 2. ดึงข้อมูลแต่ละรายการมาใส่แถว
+    history.forEach(txn => {
+        // ครอบข้อมูลด้วย " " เพื่อป้องกันเครื่องหมายคอมม่า (,) ในชื่อรายการทำให้คอลัมน์เพี้ยน
+        const row = [
+            `"${txn.timestamp}"`,
+            `"${txn.items}"`,
+            txn.total,
+            txn.received,
+            txn.change
+        ].join(",");
+        csvContent += row + "\n";
+    });
+
+    // 3. สร้างไฟล์และสั่งดาวน์โหลด
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.setAttribute("href", url);
+    link.setAttribute("download", `samlan_report_${new Date().toLocaleDateString('th-TH')}.csv`);
+    link.style.visibility = 'hidden';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+}
+function openHistory() {
+    const history = JSON.parse(localStorage.getItem('samlan_history') || '[]');
+    const tbody = document.getElementById('history-table-body');
+    tbody.innerHTML = '';
+
+    if (history.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="3" class="text-center p-4 text-muted">ยังไม่มีประวัติการรับเงิน</td></tr>';
+    } else {
+        [...history].reverse().forEach(txn => {
+            const row = `
+                <tr>
+                    <td style="width: 20%;">
+                        <div class="fw-bold" style="font-size: 0.85rem;">${txn.timestamp.split(' ')[1]}</div>
+                        <div class="text-muted" style="font-size: 0.7rem;">${txn.timestamp.split(' ')[0]}</div>
+                    </td>
+                    <td style="width: 55%;">
+                        <div class="text-dark fw-bold" style="font-size: 0.9rem;">${txn.total.toLocaleString()} บ.</div>
+                        <div class="text-muted small" style="font-size: 0.75rem; line-height: 1.2;">
+                            ${txn.items}
+                        </div>
+                    </td>
+                    <td style="width: 25%; text-align: right;">
+                        <div class="text-success" style="font-size: 0.75rem;">รับ: ${txn.received}</div>
+                        <div class="text-danger" style="font-size: 0.75rem;">ทอน: ${txn.change}</div>
+                    </td>
+                </tr>`;
+            tbody.innerHTML += row;
+        });
+    }
+
+    // ระบบป้องกัน Modal ซ้อนกัน (Instance Control)
+    const modalElement = document.getElementById('historyModal');
+    if (!historyModalInstance) {
+        historyModalInstance = new bootstrap.Modal(modalElement);
+    }
+    
+    // สั่งเปิดเฉพาะเมื่อหน้าต่างยังไม่ได้แสดงอยู่
+    if (!modalElement.classList.contains('show')) {
+        historyModalInstance.show();
+    }
+}
+
+function clearHistory() {
+    if(confirm('ยืนยันจะลบประวัติการขายทั้งหมดไหมครับ? (แนะนำให้ Export CSV ไว้ก่อน)')) {
+        localStorage.removeItem('samlan_history');
+        
+        // แก้ไข: อัปเดตตารางให้แสดงว่าว่างเปล่าทันที โดยไม่ต้องสั่งเปิด Modal ซ้ำ
+        const tbody = document.getElementById('history-table-body');
+        tbody.innerHTML = '<tr><td colspan="3" class="text-center p-4 text-muted">ยังไม่มีประวัติการรับเงิน</td></tr>';
+    }
+}

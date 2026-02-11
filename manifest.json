@@ -1,6 +1,6 @@
 {
     "name": "NP Fee Calculator",
-    "short_name": "NP Fee",
+    "short_name": "คิดเงิน",
     "start_url": "./index.html",
     "display": "standalone",
     "background_color": "#ffffff",

@@ -1,4 +1,4 @@
-const CACHE_NAME = 'np-fee-v3.2'; // อัปเดตเวอร์ชันเป็น 3.2
+const CACHE_NAME = 'np-fee-v4.0'; // อัปเดตเวอร์ชันเป็น 4.0
 const ASSETS = [
     './',
     './index.html',

@@ -6,7 +6,7 @@
     <title>ค่าธรรมเนียม - น้ำตกสามหลั่น</title>
     
     <link rel="stylesheet" href="css/bootstrap.min.css">
-    <link rel="stylesheet" href="css/style.css?v=3.2">
+    <link rel="stylesheet" href="css/style.css?v=4.0">
     
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#2E7D32">
@@ -42,7 +42,7 @@
             background-color: #ff9800; /* สีส้ม */
             color: white;
             border-color: #e68900;
-            transform: scale(1.1); /* ขยายใหญ่ขึ้นนิดนึง */
+            transform: scale(1.2); /* ขยายใหญ่ขึ้นนิดนึง */
             box-shadow: 0 2px 4px rgba(0,0,0,0.2);
             opacity: 1;
         }
@@ -63,7 +63,7 @@
     </style>
 </head>
 
-<body style="background-color: #f0f2f5;">
+<body>
 
     <nav class="navbar navbar-dark bg-success shadow-sm sticky-top" style="z-index: 100;">
       <div class="container d-flex align-items-center">
@@ -111,9 +111,14 @@
     <div class="modal fade" id="paymentModal" tabindex="-1" data-bs-backdrop="static">
         <div class="modal-dialog modal-dialog-centered modal-lg">
             <div class="modal-content">
-                <div class="modal-header bg-success text-white">
-                    <h5 class="modal-title" id="modal-title">สรุปรายการ & รับเงิน</h5>
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                <div class="modal-header bg-success text-white d-flex justify-content-between align-items-center">
+                     <h5 class="modal-title" id="modal-title">สรุปรายการ & รับเงิน</h5>
+                      <div class="d-flex align-items-center">
+                        <button class="btn btn-warning btn-sm fw-bold me-2" onclick="toggleLanguage()">
+                          🌐 <span class="modal-lang-btn-text">TH</span>
+                       </button>
+                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                     </div>
                 </div>
                 <div class="modal-body">
                     
@@ -185,9 +190,38 @@
             </div>
         </div>
     </div>
-
+    <div class="modal fade" id="historyModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-scrollable modal-lg">
+        <div class="modal-content">
+            <div class="modal-header bg-primary text-white">
+                <h5 class="modal-title">📄 ประวัติการรับเงิน (History)</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body p-0">
+                <div class="table-responsive">
+                    <table class="table table-striped mb-0">
+                        <thead class="table-dark">
+                            <tr>
+                                <th>เวลา</th>
+                                <th>ยอดรวม</th>
+                                <th>รับ/ทอน</th>
+                            </tr>
+                        </thead>
+                        <tbody id="history-table-body">
+                            </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-danger me-auto" onclick="clearHistory()">🗑️ ล้างประวัติ</button>
+                <button class="btn btn-secondary" data-bs-dismiss="modal">ปิด</button>
+            </div>
+        </div>
+    </div>
+</div>
+    
     <script src="js/bootstrap.bundle.min.js"></script>
-    <script src="js/app.js?v=3.2"></script>
+    <script src="js/app.js?v=4.0"></script>
     <script>
         if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js');
     </script>
