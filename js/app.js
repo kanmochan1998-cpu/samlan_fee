@@ -100,6 +100,10 @@ document.addEventListener('DOMContentLoaded', () => {
     setNights(1); // เริ่มต้น 1 คืนเสมอ
     renderItems();
     calculateTotal();
+    const paymentModalEl = document.getElementById('paymentModal');
+    paymentModalEl.addEventListener('hidden.bs.modal', event => {
+        receivedMoney = 0; // ล้างยอดเงินรับเป็น 0
+    });
 });
 
 // --- ฟังก์ชันเลือกจำนวนคืน (Sticky Night Logic) ---
@@ -268,7 +272,7 @@ function updateCart(id, change) {
     
     const item = feeItems.find(i => i.id === id);
 
-    // --- Logic : ฉลาดเลือก (Smart Update) ---
+    // --- Logic : ฉลาดเลือกไม่เบร้อ (Update) ---
     if (change > 0) { 
         // กรณีพี่กดปุ่ม (+) หรือจิ้มที่การ์ด
         
@@ -278,7 +282,7 @@ function updateCart(id, change) {
         // 3. จำนวนคืนที่เลือกใหม่ มันไม่ตรงกับของเดิมใช่ไหม? (คืนไม่ตรง)
         if (item.category === 'sleep' && cart[id] > 0 && cartNights[id] !== currentNights) {
             
-            // ✅ ถ้าใช่: ให้อัปเดตแค่ "จำนวนคืน" พอ (จำนวนคนห้ามเพิ่ม!)
+            // ✅ ถ้าใช่: ให้อัปเดตแค่ "จำนวนคืน" พอ (จำนวนคนห้ามเพิ่มโว้ย!)
             cartNights[id] = currentNights;
             
         } else {
@@ -380,7 +384,7 @@ function showSummary() {
     
     if(document.getElementById('txn-note')) document.getElementById('txn-note').value = '';
     
-    receivedMoney = 0;
+    //receivedMoney = 0;
     updateChangeDisplay();
 
     // ✅ ส่วนที่ป้องกันหน้าจอค้าง
@@ -420,30 +424,41 @@ function updateChangeDisplay() {
 }
 
 function finishTransaction() {
-    // 1. ดึงข้อมูลที่จำเป็นมาเตรียมบันทึก
+    // 1. คำนวณยอดรวมปัจจุบัน
     const total = calculateTotal();
+    
+    // --- [เพิ่มส่วนป้องกัน User Error] ---
+    // เช็คว่ายอดเงินที่รับมา (receivedMoney) น้อยกว่า ยอดที่ต้องจ่าย (total) หรือไม่?
+    if (receivedMoney < total) {
+        // สั่งมือถือสั่นเตือน (ถ้าเครื่องรองรับ)
+        if (navigator.vibrate) navigator.vibrate([100, 50, 100]); 
+        
+        // แจ้งเตือน
+        alert('⚠️ ยอดเงินยังไม่ครบ!\nกรุณากดรับเงินให้พอกับยอดรวมก่อนบันทึก');
+        
+        return; // สั่งหยุดทำงานทันที! (ห้ามบันทึก, ห้ามปิดหน้าต่าง)
+    }
+    // ----------------------------------
+
     const change = receivedMoney - total;
     
     // 2. สร้างก้อนข้อมูล (Transaction Object)
     const txn = {
-        timestamp: new Date().toLocaleString('th-TH'), // วันที่และเวลาแบบไทย
-        items: getCartSummaryText(), // รายการแบบสรุปสั้นๆ
+        timestamp: new Date().toLocaleString('th-TH'), 
+        items: getCartSummaryText(),
         total: total,
-        received: receivedMoney, // ยอดรับเงิน
-        change: change > 0 ? change : 0 // ยอดเงินทอน
+        received: receivedMoney, 
+        change: change 
     };
 
-    // 3. บันทึกลง LocalStorage (ระบบฐานข้อมูลในเครื่อง)
+    // 3. บันทึกลง LocalStorage
     saveToHistory(txn);
 
-    // 4. ปิดหน้าจอ Modal และรีเซ็ตแอปตามเดิม
+    // 4. ปิดหน้าจอ Modal และรีเซ็ตแอป
     if (paymentModalInstance) {
         paymentModalInstance.hide();
     }
     resetApp();
-    
-    // แจ้งเตือนเล็กน้อยว่าบันทึกแล้ว (Optional)
-    console.log("บันทึกรายการสำเร็จ:", txn);
 }
 
 function resetApp() {
@@ -656,7 +671,7 @@ function openHistory() {
         });
     }
 
-    // ระบบป้องกัน Modal ซ้อนกัน (Instance Control)
+    // ป้องกัน Modal ซ้อนกัน
     const modalElement = document.getElementById('historyModal');
     if (!historyModalInstance) {
         historyModalInstance = new bootstrap.Modal(modalElement);

@@ -6,7 +6,7 @@
     <title>ค่าธรรมเนียม - น้ำตกสามหลั่น</title>
     
     <link rel="stylesheet" href="css/bootstrap.min.css">
-    <link rel="stylesheet" href="css/style.css?v=4.0">
+    <link rel="stylesheet" href="css/style.css?v=4.3">
     
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#2E7D32">
@@ -14,7 +14,7 @@
 
     <style>
         .night-selector-bar {
-    position: -webkit-sticky; /* สำคัญ: เพื่อให้ iPhone ยอมเกาะ */
+    position: -webkit-sticky; /* สำคัญ: เพื่อให้  ไอฟง ยอมเกาะ */
     position: sticky;
     top: var(--nav-height, 66px); /* เกาะใต้ความสูงที่วัดได้จริง */
     z-index: 1020; /* อยู่เหนือการ์ดแต่ต่ำกว่า Navbar */
@@ -114,10 +114,10 @@
                 <div class="modal-header bg-success text-white d-flex justify-content-between align-items-center">
                      <h5 class="modal-title" id="modal-title">สรุปรายการ & รับเงิน</h5>
                       <div class="d-flex align-items-center">
-                        <button class="btn btn-warning btn-sm fw-bold me-2" onclick="toggleLanguage()">
+                        <button class="btn btn-warning btn-sm fw-bold me-3" onclick="toggleLanguage()">
                           🌐 <span class="modal-lang-btn-text">TH</span>
                        </button>
-                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                     <button type="button" class="btn-close btn-close-white big-close" data-bs-dismiss="modal"></button>
                      </div>
                 </div>
                 <div class="modal-body">
@@ -214,6 +214,7 @@
             </div>
             <div class="modal-footer">
                 <button class="btn btn-danger me-auto" onclick="clearHistory()">🗑️ ล้างประวัติ</button>
+                <button class="btn btn-info" onclick=" exportToCSV()">ส่งออก CSV</button>
                 <button class="btn btn-secondary" data-bs-dismiss="modal">ปิด</button>
             </div>
         </div>
@@ -221,7 +222,7 @@
 </div>
     
     <script src="js/bootstrap.bundle.min.js"></script>
-    <script src="js/app.js?v=4.0"></script>
+    <script src="js/app.js?v=4.3"></script>
     <script>
         if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js');
     </script>

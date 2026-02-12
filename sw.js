@@ -1,10 +1,10 @@
-const CACHE_NAME = 'np-fee-v4.2'; // ปรับเวอร์ชันเพื่อรีเซ็ต Cache
+const CACHE_NAME = 'np-fee-v4.3'; // ปรับเวอร์ชันเพื่อรีเซ็ต Cache
 const ASSETS = [
     './',
-    './index.html',
-    './css/style.css?v=4.0',         // แก้ให้ตรงกับ index.html
+    './index.html',  //ตรงนี้โหลดมาเก็บไว้ในเครื่อง offline
+    './css/style.css?v=4.3',         // แก้ให้ตรงกับ index.html
     './css/bootstrap.min.css',
-    './js/app.js?v=4.0',            // แก้ให้ตรงกับ index.html
+    './js/app.js?v=4.3',            // แก้ให้ตรงกับ index.html
     './js/bootstrap.bundle.min.js',
     './img/logo.png',
     './img/icon.png',
@@ -26,7 +26,7 @@ self.addEventListener('activate', (e) => {
     );
 });
 
-// กลยุทธ์แก้ไขปัญหา Offline: เช็คใน Cache ก่อนเสมอ
+// แก้ไขปัญหา Offline: เช็คใน Cache ก่อนเสมอ
 self.addEventListener('fetch', (e) => {
     e.respondWith(
         caches.match(e.request).then((response) => {
