@@ -1,19 +1,21 @@
-const CACHE_NAME = 'np-fee-v4.0'; // อัปเดตเวอร์ชันเป็น 4.0
+const CACHE_NAME = 'np-fee-v4.2'; // ปรับเวอร์ชันเพื่อรีเซ็ต Cache
 const ASSETS = [
     './',
     './index.html',
-    './css/style.css',
-    './css/bootstrap.min.css',      // เพิ่ม: ตัวจัดหน้าตา
-    './js/app.js',
-    './js/bootstrap.bundle.min.js', // เพิ่ม: ตัวคุม Popup Modal
-    './img/logo.png',               // เพิ่ม: โลโก้
-    './img/icon.png',               // เพิ่ม: ไอคอนแอป
-    './manifest.json'               // เพิ่ม: ไฟล์ตั้งค่าติดตั้ง
+    './css/style.css?v=4.0',         // แก้ให้ตรงกับ index.html
+    './css/bootstrap.min.css',
+    './js/app.js?v=4.0',            // แก้ให้ตรงกับ index.html
+    './js/bootstrap.bundle.min.js',
+    './img/logo.png',
+    './img/icon.png',
+    './manifest.json'
 ];
 
 self.addEventListener('install', (e) => {
     self.skipWaiting();
-    e.waitUntil(caches.open(CACHE_NAME).then((cache) => cache.addAll(ASSETS)));
+    e.waitUntil(
+        caches.open(CACHE_NAME).then((cache) => cache.addAll(ASSETS))
+    );
 });
 
 self.addEventListener('activate', (e) => {
@@ -24,6 +26,11 @@ self.addEventListener('activate', (e) => {
     );
 });
 
+// กลยุทธ์แก้ไขปัญหา Offline: เช็คใน Cache ก่อนเสมอ
 self.addEventListener('fetch', (e) => {
-    e.respondWith(fetch(e.request).catch(() => caches.match(e.request)));
+    e.respondWith(
+        caches.match(e.request).then((response) => {
+            return response || fetch(e.request);
+        })
+    );
 });
